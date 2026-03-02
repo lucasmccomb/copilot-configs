@@ -46,8 +46,7 @@
 
   // ----- Copilot: Instruction file locations -----
   "chat.instructionsFilesLocations": [
-    { "directory": ".github/instructions" },
-    { "directory": ".github/prompts" }
+    { "directory": ".github/instructions" }
   ],
 
   // ----- Copilot: Agent Mode defaults -----
