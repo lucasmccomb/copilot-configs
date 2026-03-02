@@ -7,38 +7,12 @@
   //
   // Project-level settings go in each repo's .vscode/settings.json
 
-  // ----- Copilot: Global Custom Instructions -----
-  // These apply to ALL chat interactions across all workspaces.
-  // Equivalent to ~/.claude/CLAUDE.md
-  "github.copilot.chat.codeGeneration.instructions": [
-    { "text": "Never add AI attribution (Co-Authored-By, 'Generated with Copilot', etc.) to git commits, PR descriptions, or any git metadata." },
-    { "text": "Use functional React components with TypeScript interfaces for props. Never use class components." },
-    { "text": "Use path aliases (@/ for src/, @components/ for src/components/, etc.) for imports." },
-    { "text": "Do not use em dashes in any output. Use hyphens, parentheses, or separate sentences instead." },
-    { "text": "When adding new env vars, always update the corresponding .env.example file." },
-    { "text": "Never commit .env files, secrets, or API keys." },
-    { "text": "Before implementing fixes that touch multiple files, check ESLint configs and existing patterns first." },
-    { "text": "In Vite projects, never export both React components and non-components (hooks, utilities) from the same file (Fast Refresh violation)." },
-    { "text": "Before creating any new branch, check for open PRs with `gh pr list --state open` and determine if new work depends on any of them." },
-    { "text": "When exploring monorepos, always check nested structures in apps/, packages/, libs/. Use multiple discovery methods." }
-  ],
-
-  "github.copilot.chat.testGeneration.instructions": [
-    { "text": "Write tests for: new features (happy path + key functionality), edge cases (empty states, boundary conditions, invalid inputs), bug fixes (reproduce bug first), and complex logic." },
-    { "text": "Always include at least one test for the happy path and one edge case test." }
-  ],
-
-  "github.copilot.chat.commitMessageGeneration.instructions": [
-    { "text": "Format: {issue_number}: {brief description}. Example: '4: Add user authentication'. Never include AI attribution, Co-Authored-By trailers, or 'Generated with' phrases." }
-  ],
-
-  "github.copilot.chat.reviewSelection.instructions": [
-    { "text": "Check for: security vulnerabilities (XSS, SQL injection), missing error handling, unused imports/variables, missing TypeScript types, React Fast Refresh violations in Vite projects." }
-  ],
-
-  "github.copilot.chat.pullRequestDescriptionGeneration.instructions": [
-    { "text": "Check for a PR template at .github/PULL_REQUEST_TEMPLATE.md first. If found, use its structure. Always include 'Closes #{issue_number}'. Never add AI-generated footers or attribution." }
-  ],
+  // ----- Copilot: Custom Instructions -----
+  // All instructions live in per-project files (not inline settings):
+  //   .github/copilot-instructions.md        -> global rules for the project
+  //   .github/instructions/*.instructions.md  -> conditional per-filetype rules
+  // The deprecated github.copilot.chat.*.instructions settings have been
+  // removed in favor of instruction files. See README.md for details.
 
   // ----- Copilot: Enable CLAUDE.md support -----
   // This lets Copilot read existing CLAUDE.md files in repos
