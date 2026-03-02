@@ -1,0 +1,106 @@
+{
+  // ===========================================
+  // COPILOT USER-LEVEL SETTINGS
+  // ===========================================
+  // Copy these into your VS Code User Settings (Ctrl+Shift+P -> "Open User Settings (JSON)")
+  // on the Windows VM.
+  //
+  // Project-level settings go in each repo's .vscode/settings.json
+
+  // ----- Copilot: Global Custom Instructions -----
+  // These apply to ALL chat interactions across all workspaces.
+  // Equivalent to ~/.claude/CLAUDE.md
+  "github.copilot.chat.codeGeneration.instructions": [
+    { "text": "Never add AI attribution (Co-Authored-By, 'Generated with Copilot', etc.) to git commits, PR descriptions, or any git metadata." },
+    { "text": "Use functional React components with TypeScript interfaces for props. Never use class components." },
+    { "text": "Use path aliases (@/ for src/, @components/ for src/components/, etc.) for imports." },
+    { "text": "Do not use em dashes in any output. Use hyphens, parentheses, or separate sentences instead." },
+    { "text": "When adding new env vars, always update the corresponding .env.example file." },
+    { "text": "Never commit .env files, secrets, or API keys." },
+    { "text": "Before implementing fixes that touch multiple files, check ESLint configs and existing patterns first." },
+    { "text": "In Vite projects, never export both React components and non-components (hooks, utilities) from the same file (Fast Refresh violation)." },
+    { "text": "Before creating any new branch, check for open PRs with `gh pr list --state open` and determine if new work depends on any of them." },
+    { "text": "When exploring monorepos, always check nested structures in apps/, packages/, libs/. Use multiple discovery methods." }
+  ],
+
+  "github.copilot.chat.testGeneration.instructions": [
+    { "text": "Write tests for: new features (happy path + key functionality), edge cases (empty states, boundary conditions, invalid inputs), bug fixes (reproduce bug first), and complex logic." },
+    { "text": "Always include at least one test for the happy path and one edge case test." }
+  ],
+
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    { "text": "Format: {issue_number}: {brief description}. Example: '4: Add user authentication'. Never include AI attribution, Co-Authored-By trailers, or 'Generated with' phrases." }
+  ],
+
+  "github.copilot.chat.reviewSelection.instructions": [
+    { "text": "Check for: security vulnerabilities (XSS, SQL injection), missing error handling, unused imports/variables, missing TypeScript types, React Fast Refresh violations in Vite projects." }
+  ],
+
+  "github.copilot.chat.pullRequestDescriptionGeneration.instructions": [
+    { "text": "Check for a PR template at .github/PULL_REQUEST_TEMPLATE.md first. If found, use its structure. Always include 'Closes #{issue_number}'. Never add AI-generated footers or attribution." }
+  ],
+
+  // ----- Copilot: Enable CLAUDE.md support -----
+  // This lets Copilot read existing CLAUDE.md files in repos
+  "chat.useClaudeMdFile": true,
+
+  // ----- Copilot: Instruction file locations -----
+  "chat.instructionsFilesLocations": [
+    { "directory": ".github/instructions" },
+    { "directory": ".github/prompts" }
+  ],
+
+  // ----- Copilot: Agent Mode defaults -----
+  "chat.agent.enabled": true,
+
+  // ----- Copilot: Editor suggestions -----
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": true,
+    "markdown": true,
+    "yaml": true
+  },
+
+  // ----- Next Edit Suggestions -----
+  "github.copilot.nextEditSuggestions.enabled": true,
+
+  // ----- Terminal integration -----
+  "github.copilot.chat.terminalChatLocation": "terminal",
+
+  // ----- Editor settings for consistency -----
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+
+  // ----- TypeScript -----
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.suggest.autoImports": true,
+
+  // ----- Git settings -----
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+  "git.postCommitCommand": "none",
+
+  // ----- Files to exclude from Copilot context -----
+  // Equivalent to .claudeignore
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.next": true,
+    "**/coverage": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/coverage": true,
+    "**/package-lock.json": true,
+    "**/yarn.lock": true,
+    "**/pnpm-lock.yaml": true
+  }
+}
