@@ -19,9 +19,9 @@
   "chat.useClaudeMdFile": true,
 
   // ----- Copilot: Instruction file locations -----
-  "chat.instructionsFilesLocations": [
-    { "directory": ".github/instructions" }
-  ],
+  // .github/instructions/ is scanned by default, so no explicit config needed.
+  // If you store instruction files elsewhere, add the path here as a string array:
+  // "chat.instructionsFilesLocations": [".github/instructions"],
 
   // ----- Copilot: Agent Mode defaults -----
   "chat.agent.enabled": true,
@@ -42,7 +42,8 @@
 
   // ----- Editor settings for consistency -----
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // Uncomment after installing Prettier extension (esbenp.prettier-vscode):
+  // "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit"
