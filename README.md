@@ -28,7 +28,9 @@ You can also pass values directly:
 
 1. Open VS Code: `Ctrl+Shift+P` -> "Preferences: Open User Settings (JSON)"
 2. Merge the contents of `.vscode/settings.json` into your user settings
-3. This configures Copilot's custom instructions for code gen, tests, commits, reviews, and PR descriptions
+3. Save and reload: `Ctrl+Shift+P` -> "Developer: Reload Window"
+
+See [Settings Reference](#settings-reference) below for what each setting does.
 
 ### 3. Copy Per-Project Files
 
@@ -193,6 +195,80 @@ name: 'Python Standards'
 applyTo: '**/*.py'
 ---
 Use type hints. Prefer dataclasses over dicts.
+```
+
+## Settings Reference
+
+The `.vscode/settings.json` file contains user-level VS Code settings. Here's what each one does.
+
+### Copilot Settings
+
+| Setting | Value | What It Does |
+|---------|-------|-------------|
+| `chat.useClaudeMdFile` | `true` | Copilot reads `CLAUDE.md` files in your repos as additional context. If you have repos with existing `CLAUDE.md` files from Claude Code, Copilot will respect those instructions alongside `.github/copilot-instructions.md`. |
+| `chat.agent.enabled` | `true` | Enables Agent Mode - the closest equivalent to Claude Code's default behavior. Copilot can run terminal commands, edit files, and read files autonomously. Without this, chat is ask-only. Open with `Ctrl+Shift+I`. |
+| `github.copilot.enable` | `{ "*": true, ... }` | Controls which file types get inline autocomplete suggestions (the gray ghost text as you type). Explicitly enables `plaintext`, `markdown`, and `yaml` which some setups disable by default. Set any to `false` to disable suggestions for that type. |
+| `github.copilot.nextEditSuggestions.enabled` | `true` | After you make an edit, Copilot predicts where you'll edit next and pre-suggests the change. For example, rename a function parameter and it suggests updating all usages. Accept with `Tab`. |
+| `github.copilot.chat.terminalChatLocation` | `"terminal"` | When you use Copilot in the terminal, chat appears inline in the terminal panel rather than opening the sidebar. Handy for quick terminal questions without leaving context. |
+
+### Editor Settings
+
+| Setting | Value | What It Does |
+|---------|-------|-------------|
+| `editor.formatOnSave` | `true` | Automatically formats the file every time you save (`Ctrl+S`). Uses whichever formatter is configured (Prettier when uncommented). |
+| `editor.defaultFormatter` | `"esbenp.prettier-vscode"` | Sets Prettier as the formatter for all file types. Handles consistent quotes, semicolons, indentation, and line width. **Requires** the Prettier extension (`Ctrl+Shift+X` -> search "Prettier"). Commented out by default until installed. |
+| `editor.codeActionsOnSave` | `{ fixAll, organizeImports }` | `source.fixAll.eslint` auto-fixes ESLint errors on save (unused imports, spacing rules). `source.organizeImports` sorts and groups imports on save. `"explicit"` means it runs on manual save only, not on auto-save or window close. Requires ESLint extension. |
+
+### TypeScript Settings
+
+| Setting | Value | What It Does |
+|---------|-------|-------------|
+| `typescript.preferences.importModuleSpecifier` | `"non-relative"` | When VS Code auto-imports, it uses path aliases (`@/services/auth`) instead of relative paths (`../../../services/auth`). Only works if your project has path aliases configured in `tsconfig.json`. |
+| `typescript.suggest.autoImports` | `true` | VS Code automatically suggests imports when you type a symbol name. Start typing `useState` and it offers to add `import { useState } from 'react'`. |
+
+### Git Settings
+
+| Setting | Value | What It Does |
+|---------|-------|-------------|
+| `git.autofetch` | `true` | VS Code periodically runs `git fetch` in the background. The branch indicator in the bottom-left shows if you're ahead/behind origin without manually fetching. |
+| `git.confirmSync` | `false` | Skips the "are you sure?" dialog when syncing (push/pull) via the VS Code UI. Reduces friction for routine git operations. |
+| `git.enableSmartCommit` | `true` | If you click the commit button with no staged files, VS Code automatically stages ALL changed files and commits. Without this, you'd get an error saying "nothing staged". |
+| `git.postCommitCommand` | `"none"` | After committing, VS Code does nothing (no auto-push, no auto-sync). Intentional - you control when to push, matching the issue-first workflow. |
+
+### File Exclusion Settings
+
+| Setting | What It Excludes | Why |
+|---------|-----------------|-----|
+| `files.exclude` | `node_modules`, `dist`, `build`, `.next`, `coverage` | Hides these from the file explorer sidebar and `Ctrl+P` quick open. These are generated directories you never browse manually. |
+| `search.exclude` | Same as above + `package-lock.json`, `yarn.lock`, `pnpm-lock.yaml` | Excludes from `Ctrl+Shift+F` global search results. Lock files are huge and pollute search. Also reduces noise when Copilot searches your codebase via `#codebase`. |
+
+### What's NOT in Settings
+
+These rules live in per-project files instead of user settings:
+
+| What | Where | How Copilot Finds It |
+|------|-------|---------------------|
+| Global project rules (no AI attribution, git workflow, code standards) | `.github/copilot-instructions.md` | Auto-loaded per workspace |
+| Per-filetype rules (React/TS conventions, SQL migration rules) | `.github/instructions/*.instructions.md` | Auto-scanned, applied by `applyTo` glob match |
+| Slash commands (`/commit`, `/pr`, `/gs`, etc.) | `.github/prompts/*.prompt.md` | Auto-discovered, appear in `/` menu in Agent mode |
+
+### Prerequisites
+
+These extensions should be installed for full functionality:
+
+| Extension | ID | Required For |
+|-----------|----|-------------|
+| GitHub Copilot | `GitHub.copilot` | All Copilot features |
+| GitHub Copilot Chat | `GitHub.copilot-chat` | Chat and Agent mode |
+| Prettier | `esbenp.prettier-vscode` | `editor.defaultFormatter` setting |
+| ESLint | `dbaeumer.vscode-eslint` | `source.fixAll.eslint` on save |
+
+Install via `Ctrl+Shift+X` (Extensions panel) or command line:
+```bash
+code --install-extension GitHub.copilot
+code --install-extension GitHub.copilot-chat
+code --install-extension esbenp.prettier-vscode
+code --install-extension dbaeumer.vscode-eslint
 ```
 
 ## License
